@@ -1,0 +1,1 @@
+{'form_data': {'username': 'fortniterussian@mail.ru', 'password': 'btn-signin'}}
