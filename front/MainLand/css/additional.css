@@ -770,3 +770,31 @@ a {
 .mbr-fullscreen{
   overflow: hidden;
 }
+
+
+
+.footer {
+  margin-top: auto;
+  padding: 60px 0 50px;
+  background-color: var(--dark-bg);
+  color: var(--header-text);
+}
+
+.footer__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 27px;
+}
+
+.social {
+  display: flex;
+  column-gap: 30px;
+  align-items: center;
+  list-style-type: none;
+}
+
+.social__item{
+  width: 60px;
+  height: 60px;
+}
