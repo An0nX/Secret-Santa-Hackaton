@@ -8,4 +8,5 @@ class RegisterForm(User):
     name: str
     gift_preferences: str
     address: str
+    gender: str
     is_student: bool
