@@ -5,11 +5,30 @@ from fastapi_jwt_auth.exceptions import AuthJWTException
 from pydantic import BaseModel
 from classes.user import User, RegisterForm
 from functions.suggest_gift import suggest_gift
+from functions.db import PostgreSQLController
+import functions.logger
 
+table = """
+CREATE TABLE IF NOT EXISTS users (
+    key SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    gift_preferences VARCHAR(255) NOT NULL,
+    budget INTEGER NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    gender VARCHAR(255) NOT NULL,
+    is_student BOOLEAN NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS gifts (
+    key SERIAL PRIMARY KEY,
+    recipient INTEGER NOT NULL,
+    sender INTEGER NOT NULL
+);
 """
-Note: This is just a basic example how to enable cookies.
-This is vulnerable to CSRF attacks, and should not be used this example.
-"""
+
+db = PostgreSQLController(table_definition=table)
 
 app = FastAPI()
 
@@ -46,13 +65,13 @@ def authjwt_exception_handler(request: Request, exc: AuthJWTException):
     )
 
 @app.post('/login')
-def login(user: User, Authorize: AuthJWT = Depends()):
+def login(user: User, authorize: AuthJWT = Depends()):
     """
     Login endpoint for user authentication.
     
     Parameters:
     - user (User): The user object containing the email and password for authentication.
-    - Authorize (AuthJWT): The instance of the AuthJWT class used for token generation and cookie setting.
+    - authorize (AuthJWT): The instance of the AuthJWT class used for token generation and cookie setting.
     
     Returns:
     - dict: A dictionary containing a success message upon successful login.
@@ -60,111 +79,135 @@ def login(user: User, Authorize: AuthJWT = Depends()):
     Raises:
     - HTTPException: If the email or password is incorrect, a 401 status code with a corresponding detail message is raised.
     """
-    if user.email != "test" or user.password != "test":
-        raise HTTPException(status_code=401,detail="Bad email or password")
+    query = f"SELECT * FROM users WHERE email = '{user.email}' AND password = '{user.password}'"
+    result = db.execute_query(query)
 
-    access_token = Authorize.create_access_token(subject=user.email)
-    refresh_token = Authorize.create_refresh_token(subject=user.email)
+    if len(result) == 0:
+        raise HTTPException(status_code=401,detail="Bad email or password or user doesn't exist")
+
+    access_token = authorize.create_access_token(subject=user.email)
+    refresh_token = authorize.create_refresh_token(subject=user.email)
     
-    Authorize.set_refresh_cookies(refresh_token)
-    Authorize.set_access_cookies(access_token)
+    authorize.set_refresh_cookies(refresh_token)
+    authorize.set_access_cookies(access_token)
     return {"msg":"Successfully login"}
 
 @app.post('/refresh')
-def refresh(Authorize: AuthJWT = Depends()):
+def refresh(authorize: AuthJWT = Depends()):
     """
         A function to refresh the access token.
 
         Parameters:
-            Authorize (AuthJWT): An instance of the AuthJWT class for JWT authorization.
+            authorize (AuthJWT): An instance of the AuthJWT class for JWT authorization.
         
         Returns:
             dict: A dictionary containing a success message.
     """
-    Authorize.jwt_refresh_token_required()
+    authorize.jwt_refresh_token_required()
 
-    current_user = Authorize.get_jwt_subject()
-    new_access_token = Authorize.create_access_token(subject=current_user)
-    Authorize.set_access_cookies(new_access_token)
+    current_user = authorize.get_jwt_subject()
+    new_access_token = authorize.create_access_token(subject=current_user)
+    authorize.set_access_cookies(new_access_token)
     return {"msg":"The token has been refresh"}
 
 @app.post('/logout')
-def logout(Authorize: AuthJWT = Depends()):
+def logout(authorize: AuthJWT = Depends()):
     """
     Logout the user by invalidating their JWT token and removing the token cookies.
     
     Parameters:
-        Authorize (AuthJWT): An instance of the AuthJWT class that handles JWT authorization.
+        authorize (AuthJWT): An instance of the AuthJWT class that handles JWT authorization.
     
     Returns:
         dict: A dictionary with a success message indicating that the logout was successful.
     """
-    Authorize.jwt_required()
+    authorize.jwt_required()
 
-    Authorize.unset_jwt_cookies()
+    authorize.unset_jwt_cookies()
     return {"msg":"Successfully logout"}
 
 @app.get('/protected')
-def protected(Authorize: AuthJWT = Depends()):
+def protected(authorize: AuthJWT = Depends()):
     """
     A decorator to create a route for a protected endpoint.
 
     Parameters:
-    - Authorize (AuthJWT): An instance of the AuthJWT class that handles JWT authorization.
+    - authorize (AuthJWT): An instance of the AuthJWT class that handles JWT authorization.
+    - db (PostgreSQLController): An instance of the PostgreSQLController class to interact with the database.
 
     Returns:
-    - dict: A dictionary containing the user name of the current user.
+    - dict: A dictionary containing the user name and other information fetched from the database.
     """
-    Authorize.jwt_required()
+    authorize.jwt_required()
 
-    current_user = Authorize.get_jwt_subject()
-    return {"user": current_user}
+    current_user = authorize.get_jwt_subject()
+    query = f"SELECT * FROM users WHERE email = '{current_user}'"
+    result = db.execute_query(query)
+
+    if len(result) == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return {"user": result[0]}
 
 @app.post('/register')
-def register(user: RegisterForm, Authorize: AuthJWT = Depends()):
-    if user.email == "test":
+def register(user: RegisterForm, authorize: AuthJWT = Depends()):
+    result = db.execute_query(f"SELECT * FROM users WHERE email = '{user.email}'")
+    if len(result) > 0:
         raise HTTPException(status_code=401,detail="User already exists")
 
     register_data = user.dict()
 
-    access_token = Authorize.create_access_token(subject=user.email)
-    refresh_token = Authorize.create_refresh_token(subject=user.email)
+    db.write("users", ", ".join(register_data.keys()), ", ".join([f"'{register_data[key]}'" for key in register_data]))
 
-    Authorize.set_access_cookies(access_token)
-    Authorize.set_refresh_cookies(refresh_token)
+    access_token = authorize.create_access_token(subject=user.email)
+    refresh_token = authorize.create_refresh_token(subject=user.email)
+
+    authorize.set_access_cookies(access_token)
+    authorize.set_refresh_cookies(refresh_token)
 
     # Верни сообщение об успешной регистрации
     return {"msg": "Successfully registered"}
 
 @app.post('/active')
-def is_cookies_active(Authorize: AuthJWT = Depends()):
+def is_cookies_active(authorize: AuthJWT = Depends()):
     """
     Validates if cookies are active.
 
     Parameters:
-        Authorize (AuthJWT): An instance of the AuthJWT class.
+        authorize (AuthJWT): An instance of the AuthJWT class.
 
     Returns:
         dict: A dictionary with a message indicating if cookies are active.
     """
-    Authorize.jwt_required()
+    authorize.jwt_required()
     return {"msg": "Cookies are active"}
 
 @app.post('/suggest')
-def suggest_gift_handler(Authorize: AuthJWT = Depends()):
+async def suggest_gift_handler(authorize: AuthJWT = Depends()):
     """
     A function to suggest a gift based on user preferences and budget.
 
     Parameters:
     - preferences (str): The user's preferences for the gift.
     - budget (int, optional): The budget for the gift. Defaults to 10.
-    - Authorize (AuthJWT): An instance of the AuthJWT class that handles JWT authorization.
+    - authorize (AuthJWT): An instance of the AuthJWT class that handles JWT authorization.
 
     Returns:
     - None
     """
-    preferences = 'cooking food'
-    budget = 10
+    authorize.jwt_required()
+    email = authorize.get_jwt_subject()
 
-    Authorize.jwt_required()
-    return suggest_gift(preferences=preferences, budget=budget)
+    gift_preferences = db.execute_query(f"SELECT gift_preferences FROM users WHERE email = '{email}'")
+    budget = db.execute_query(f"SELECT budget FROM users WHERE email = '{email}'")
+
+    
+    return suggest_gift(preferences=gift_preferences, budget=budget)
+
+@app.delete('/delete')
+def delete_account(authorize: AuthJWT = Depends()):
+    authorize.jwt_required()
+    email = authorize.get_jwt_subject()
+    db.execute_query(f"DELETE FROM users WHERE email = '{email}'")
+    authorize.unset_jwt_cookies()
+    return {"msg": "Account deleted"}

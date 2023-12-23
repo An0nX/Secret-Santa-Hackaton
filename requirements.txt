@@ -4,3 +4,5 @@ pydantic==1.7.2
 uvicorn==0.11.8
 httpx==0.16.1
 translators
+psycopg2
+loguru
