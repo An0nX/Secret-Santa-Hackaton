@@ -1,0 +1,1 @@
+{'form_data': {'name': 'Даниил', 'prefers': 'Love Cocks', 'speciality': 'Senior Gey', 'email': 'super.d213n17@gmail.com', 'gender': 'Мужской', 'password': '12345', 'prepod': 'on'}}

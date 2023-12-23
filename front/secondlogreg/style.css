@@ -43,17 +43,17 @@ body{
   text-align: center;
   margin-bottom: 1.5rem;
 }
- .form input{
-   height: 60px;
+.inputs{
+   height: 40px;
    width: 100%;
    padding: 0 15px;
    font-size: 17px;
-   margin-bottom: 1.3rem;
+   margin-bottom: 1rem;
    border: 1px solid #ddd;
    border-radius: 6px;
    outline: none;
  }
- .form input:focus{
+.form input:focus{
    box-shadow: 0 1px 0 rgba(0,0,0,0.2);
  }
 .form a{
@@ -64,7 +64,7 @@ body{
 .form a:hover{
   text-decoration: underline;
 }
-.form input.button{
+input.button{
   color: #fff;
   background: #009579;
   font-size: 1.2rem;
@@ -73,6 +73,14 @@ body{
   margin-top: 1.7rem;
   cursor: pointer;
   transition: 0.4s;
+  height: 40px;
+   width: 100%;
+   padding: 0 15px;
+   font-size: 17px;
+   margin-bottom: 1rem;
+   border: 1px solid #ddd;
+   border-radius: 6px;
+   outline: none;
 }
 .form input.button:hover{
   background: #006653;
@@ -88,15 +96,36 @@ body{
 .signup label:hover{
   text-decoration: underline;
 }
-.gender{
+#gender{
     margin:5px 0 20px 0;
     width: 300px;
     padding: .6em 1.4em .5em .8em; width: 100%; 
 }
-.gender:hover { 
+#gender:hover { 
     border-color: #888; 
 } 
 
 .pol {
     margin-right: 5px;
+}
+.checkboxs{
+  margin-bottom: 20px;
+}
+.button{
+  color: #fff;
+  background: #009579;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-top: 1.7rem;
+  cursor: pointer;
+  transition: 0.4s;
+  height: 40px;
+   width: 100%;
+   padding: 0 15px;
+   font-size: 17px;
+   margin-bottom: 1rem;
+   border: 1px solid #ddd;
+   border-radius: 6px;
+   outline: none;
 }
