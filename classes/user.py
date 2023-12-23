@@ -7,6 +7,5 @@ class User(BaseModel):
 class RegisterForm(User):
     name: str
     gift_preferences: str
-    favors: str
     address: str
     is_student: bool
