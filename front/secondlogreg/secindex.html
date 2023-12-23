@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Авторизация</title>
+  <link rel="stylesheet" href="secstyle.css">
+</head>
+<body>
+  <div class="container">
+    <input type="checkbox" id="check">
+    <div class="login form">
+      <header>Логин</header>
+      <form action="192.168.0.1">
+        <input type="text" placeholder="Введите почту">
+        <input type="password" placeholder="Введите пароль">
+        <input type="button" class="button" value="Авторизоваться">
+      </form>
+      <div class="signup">
+        <span class="signup">Уже есть аккаунт?
+         <label for="check">Зарегистрироваться</label>
+        </span>
+      </div>
+    </div>
+    <div class="registration form">
+      <header>Регистрация</header>
+      <form action="192.168.0.1">
+        <input type="text" placeholder="Введите имя">
+        <input type="text" placeholder="Ваши предпочтения">
+        <input type="text" placeholder="Ваша специальность">
+        <input type="text" placeholder="Введите почту">
+        <label class="pol">Пол</label>
+        <select class="gender">
+            <option>Мужчина</option>
+            <option>Женщина</option>
+        </select>
+        <input type="password" onkeyup="active()" id="pswrd_1" placeholder="Создайте пароль">
+        <input type="password" onkeyup="active_2()" id="pswrd_2" disabled placeholder="Подтвердите пароль">
+        <div class="error-text"></div>
+        <input type="button" class="button" onclick="btnClick()" value="Зарегистрироваться">
+      </form>
+      <div class="signup">
+        <span class="signup">Уже есть аккаунт?
+         <label for="check">Авторизуйтесь</label>
+        </span>
+      </div>
+    </div>
+  </div>
+  <script>const pswrd_1 = document.querySelector("#pswrd_1");
+    const pswrd_2 = document.querySelector("#pswrd_2");
+    const errorText = document.querySelector(".error-text");
+    const showBtn = document.querySelector(".show");
+    const btn = document.querySelector(".button");
+    function active(){
+      if(pswrd_1.value.length >= 6){
+        btn.removeAttribute("disabled", "");
+        btn.classList.add("active");
+        pswrd_2.removeAttribute("disabled", "");
+      }else{
+        btn.setAttribute("disabled", "");
+        btn.classList.remove("active");
+        pswrd_2.setAttribute("disabled", "");
+      }
+    }
+    function btnClick(){
+      if(pswrd_1.value != pswrd_2.value){
+        errorText.style.display = "block";
+        errorText.style.color = "red";
+        errorText.classList.remove("matched");
+        errorText.textContent = "Пароли не совпадают";
+        return false;
+      }else{
+        errorText.style.display = "block";
+        errorText.style.color = "green";
+        errorText.classList.add("matched");
+        errorText.textContent = "Пароли совпадают";
+        return false;
+      }
+    }
+    function active_2(){
+      if(pswrd_2.value != ""){
+        showBtn.style.display = "block";
+        showBtn.onclick = function(){
+          if((pswrd_1.type == "password") && (pswrd_2.type == "password")){
+            pswrd_1.type = "text";
+            pswrd_2.type = "text";
+            this.textContent = "Hide";
+            this.classList.add("active");
+          }else{
+            pswrd_1.type = "password";
+            pswrd_2.type = "password";
+            this.textContent = "Show";
+            this.classList.remove("active");
+          }
+        }
+      }else{
+        showBtn.style.display = "none";
+      }
+    }</script>
+</body>
+</html>
