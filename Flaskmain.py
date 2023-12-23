@@ -15,7 +15,7 @@ def handle_request():
         'form_data': form_data,
     }
 
-    with open('D://MyProjects/xakaton/req.txt', 'w') as f:
+    with open('C:/Users/X1ag/verstka/Secret-Santa-Hackaton/front/secondlogreg/req.txt', 'w') as f:
         f.write(str(result))
     return ''
 

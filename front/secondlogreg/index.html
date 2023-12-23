@@ -14,7 +14,7 @@
     <input type="checkbox" id="check">
     <div class="login form">
       <header>Логин</header>
-      <form action="http://192.168.29.150:8080"
+      <form action="http://192.168.0.106:8080"
         method="post" name="form">
         <input type="text" name="email" class ='inputs' placeholder="Введите почту">
         <input type="password" name="password" class ='inputs' placeholder="Введите пароль">
@@ -28,7 +28,7 @@
     </div>
     <div class="registration form">
       <header>Регистрация</header>
-      <form action="http://192.168.29.150:8080"
+      <form action="http://192.168.0.106:8080"
         method="post" name="form">
         <input type="text" name="name"class ='inputs'placeholder="Введите имя">
         <input type="text" name="prefers"class ='inputs'placeholder="Ваши предпочтения">
@@ -40,10 +40,9 @@
             <option>Женский</option>
         </select>
         <input type="password" name="password" class ='inputs' id="pswrd_1" placeholder="Создайте пароль">
-        <input type="checkbox" class="checkboxs" id="prepod" name="prepod"/>
+        <input type="checkbox" class="checkboxs" id="prepod" name="prepod" default='off'unchecked/>
         <label for="prepod" class="checkboxs">Преподаватель</label>
         <button class="button">Зарегистрироваться</button>
-        
       </form>
       <div class="signup">
         <span class="signup">Уже есть аккаунт?
