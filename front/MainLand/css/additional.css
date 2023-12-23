@@ -775,7 +775,7 @@ a {
 
 .footer {
   margin-top: auto;
-  padding: 60px 0 50px;
+  padding: 50px 0 50px;
   background-color: var(--dark-bg);
   color: var(--header-text);
 }
@@ -795,6 +795,7 @@ a {
 }
 
 .social__item{
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
+  left: 10px;
 }
