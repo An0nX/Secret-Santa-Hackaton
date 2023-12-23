@@ -88,7 +88,7 @@ def refresh(Authorize: AuthJWT = Depends()):
     Authorize.set_access_cookies(new_access_token)
     return {"msg":"The token has been refresh"}
 
-@app.delete('/logout')
+@app.post('/logout')
 def logout(Authorize: AuthJWT = Depends()):
     """
     Logout the user by invalidating their JWT token and removing the token cookies.

@@ -1,7 +1,10 @@
 import httpx
 import translators as ts
 
+ts.get_region_of_server('google.com', 'ru')
+
 API_KEY = "AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw"
+
 
 def suggest_gift(preferences: str, budget: int = 10):
     """
