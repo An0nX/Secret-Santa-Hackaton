@@ -4,6 +4,7 @@ from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from pydantic import BaseModel
 from classes.user import User, RegisterForm
+from functions.suggest_gift import suggest_gift
 
 """
 Note: This is just a basic example how to enable cookies.
@@ -148,3 +149,22 @@ def is_cookies_active(Authorize: AuthJWT = Depends()):
     """
     Authorize.jwt_required()
     return {"msg": "Cookies are active"}
+
+@app.post('/suggest')
+def suggest_gift_handler(Authorize: AuthJWT = Depends()):
+    """
+    A function to suggest a gift based on user preferences and budget.
+
+    Parameters:
+    - preferences (str): The user's preferences for the gift.
+    - budget (int, optional): The budget for the gift. Defaults to 10.
+    - Authorize (AuthJWT): An instance of the AuthJWT class that handles JWT authorization.
+
+    Returns:
+    - None
+    """
+    preferences = 'cooking food'
+    budget = 10
+
+    Authorize.jwt_required()
+    return suggest_gift(preferences=preferences, budget=budget)

@@ -2,3 +2,5 @@ fastapi==0.61.2
 fastapi_jwt_auth==0.5.0
 pydantic==1.7.2
 uvicorn==0.11.8
+httpx==0.16.1
+translators
