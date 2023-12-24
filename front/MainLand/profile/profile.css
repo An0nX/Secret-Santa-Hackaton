@@ -140,3 +140,96 @@ html, body {
     text-decoration: none;
     margin-bottom: 20px;
 }
+/* @media screen and (max-width: 530px){
+    .btn{
+        margin-left: 10vh;
+    }
+    .hone{
+        margin-left: 10vh;
+    }
+    .select{
+        margin-left: 10vh;
+    }
+    .input{
+        margin-left: 10vh;
+    }
+    .nav-list__item{
+        font-size: 12px;
+    }
+} */
+@media screen and (max-width: 868px) {
+    .btn {
+        padding: 8px 16px;
+        font-size: 18px;
+        margin-left: 5vh;
+    }
+    .hone {
+        font-size: 14px;
+        margin-left: 5vh;
+    }
+    .select {
+        margin-left: 5vh;
+    }
+    .input {
+        margin-left: 5vh;
+    }
+    .nav-list__item {
+        font-size: 11px;
+    }
+}
+@media screen and(max-width: 390px) {
+    .btn {
+        padding: 40px 20px;
+        font-size: 100px;
+        margin-left: 7vh;
+    }
+    .hone {
+        font-size: 30px;
+        margin-left: 100vh;
+    }
+    .select {
+        padding-left: 100vh;
+    }
+    .input {
+        margin-left: 100vh;
+    }
+    .nav-list__item {
+        font-size: 11px;
+    }
+    .btn{
+        width: 200px;
+    }
+    .form{
+        margin-left:200px;
+        font-size: 8px;
+    }
+    .delete_button{
+        width: 20px;
+    }
+}
+/* @media screen and(max-width: 260px) {
+    .btn {
+        padding: 8px 16px;
+        font-size: 18px;
+        margin-left: 10vh;
+    }
+    .hone {
+        font-size: 8px;
+        margin-left: 10vh;
+    }
+    .select {
+        margin-left: 10vh;
+    }
+    .input {
+        margin-left: 10vh;
+    }
+    .nav-list__item {
+        font-size: 11px;
+    }
+    .btn{
+        width: 30px;
+    }
+    .delete_button{
+        width: 20px;
+    }
+} */
