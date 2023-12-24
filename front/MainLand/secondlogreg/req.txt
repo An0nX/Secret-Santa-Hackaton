@@ -1,0 +1,10 @@
+{'form_data': 
+    {
+    'name': '������', 
+    'prefers': '����� ���� ', 
+    'speciality': '�������', 
+    'email': 'super.don17080@gmail.com', 
+    'gender': '�������', 
+    'password': '123123'
+    }
+}

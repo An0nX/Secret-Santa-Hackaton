@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Авторизация</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <input type="checkbox" id="check">
+    <div class="login form">
+      <header>Логин</header>
+      <form action="http://192.168.0.106:8080"
+        method="post" name="form">
+        <input type="text" name="email" class ='inputs' placeholder="Введите почту">
+        <input type="password" name="password" class ='inputs' placeholder="Введите пароль">
+        <button class="button">Авторизоваться</button>
+      </form>
+      <div class="signup">
+        <span class="signup">Вы еще не с нами?
+         <label for="check">Зарегистрироваться</label>
+        </span>
+      </div>
+    </div>
+    <div class="registration form">
+      <header>Регистрация</header>
+      <form action="http://192.168.0.106:8080"
+        method="post" name="form">
+        <input type="text" name="name"class ='inputs'placeholder="Введите имя">
+        <input type="text" name="prefers"class ='inputs'placeholder="Ваши предпочтения">
+        <input type="text" name="speciality"class ='inputs'placeholder="Ваша специальность">
+        <input type="text" name="email"class ='inputs'placeholder="Введите почту">
+        <label class="pol">Пол</label>
+        <select name="gender" id="gender">
+            <option>Мужской</option>
+            <option>Женский</option>
+        </select>
+        <input type="password" name="password" class ='inputs' id="pswrd_1" placeholder="Создайте пароль">
+        <input type="checkbox" class="checkboxs" id="prepod" name="prepod" default='off'unchecked/>
+        <label for="prepod" class="checkboxs">Преподаватель</label>
+        <button class="button">Зарегистрироваться</button>
+      </form>
+      <div class="signup">
+        <span class="signup">Уже есть аккаунт?
+         <label for="check">Авторизуйтесь</label>
+        </span>
+      </div>
+    </div>
+  </div>
+  <script>
+  
+  </script>
+</body>
+</html>
