@@ -1,14 +1,16 @@
-from fastapi import FastAPI, HTTPException, Depends, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
-from pydantic import BaseModel
-from classes.user import User, RegisterForm
-from functions.suggest_gift import suggest_gift
-from functions.db import PostgreSQLController
-import functions.logger
 
-table = """
+import functions.logger
+from functions.suggest_gift import suggest_gift
+from classes.settings import Settings
+from classes.user import User, RegisterForm
+from functions.db import PostgreSQLController
+
+# Initialize the PostgreSQL database
+db = PostgreSQLController(table_definition="""
 CREATE TABLE IF NOT EXISTS users (
     key SERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -23,19 +25,13 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS gifts (
     key SERIAL PRIMARY KEY,
-    recipient INTEGER NOT NULL,
-    sender INTEGER NOT NULL
+    recipient INTEGER NOT NULL UNIQUE,
+    sender INTEGER NOT NULL UNIQUE
 );
-"""
+""")
 
-db = PostgreSQLController(table_definition=table)
-
+# Initialize the FastAPI app
 app = FastAPI()
-
-class Settings(BaseModel):
-    authjwt_secret_key: str = "secret"
-    authjwt_token_location: set = {"cookies"}
-    authjwt_cookie_csrf_protect: bool = False
 
 @AuthJWT.load_config
 def get_config():

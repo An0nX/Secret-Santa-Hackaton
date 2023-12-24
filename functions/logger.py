@@ -57,7 +57,7 @@ def format_record(record: dict) -> str:
     return format_string
 
 
-def init_logging():
+def init_logging(log_level = logging.INFO):
     """
     Replaces logging handlers with a handler for using the custom handler.
         
@@ -92,7 +92,7 @@ def init_logging():
 
     # set logs output, level and format
     logger.configure(
-        handlers=[{"sink": sys.stdout, "level": logging.DEBUG, "format": format_record}]
+        handlers=[{"sink": sys.stdout, "level": log_level, "format": format_record}]
     )
 
 init_logging()
