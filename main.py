@@ -211,4 +211,4 @@ def delete_account(authorize: AuthJWT = Depends()):
 
 @app.get('/auth_print')
 def auth_print():
-    return HTMLResponse()
+    return HTMLResponse(open("front\MainLand\secondlogreg\index.html", 'r'))

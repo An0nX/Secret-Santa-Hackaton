@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="profile.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+</head>
+<body>
+    <div id="video-background">
+        <video autoplay muted loop>
+            <source src="bg.mp4" type="video/mp4">
+        </video>
+    </div>
+        <nav class="nav">
+            <div class="container">
+                <div class="nav-row">
+                    <a href="./index.html" class="logo"><strong>Тайный Санта</strong></a>
+                    <ul class="nav-list">
+                        <li class="nav-list__item"><a class="text-nav" href="#" class="nav-list__link"><b>Профиль</b></a></li>
+                        <li class="nav-list__item"><a class="text-nav" href="#" class="nav-list__link"><b>Выйти</b></a></li>
+                    </ul>
+                </div>
+        </div>
+        </nav>
+        <div class="main_form">
+            <h1 class="hone"><strong>Изменить данные</strong><h1>
+            <form class="form" action="" method="post">
+                <select class="select" name="changer">
+                    <option>Студент</option>
+                    <option>Преподаватель</option>
+                </select>
+                <input type="text" class="input" placeholder="Смена пароля" name="changer_password"/>
+                <input type="text" class="input" placeholder="Смена интересов" name="changer_interests"/>
+                <button class="btn" type="submit">Подвердить изменить</button>
+            </form>
+            <form class="delete_button" action="" method="post">
+                <button class="delete">Удалить профиль</button>
+            </form>
+        </div>
+        <script src="https://app.embed.im/snow.js" defer></script>
+</body>
+</html>
