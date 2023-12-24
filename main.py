@@ -2,6 +2,7 @@ from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
+from fastapi.responses import HTMLResponse
 
 import functions.logger
 from functions.suggest_gift import suggest_gift
@@ -207,3 +208,7 @@ def delete_account(authorize: AuthJWT = Depends()):
     db.execute_query(f"DELETE FROM users WHERE email = '{email}'")
     authorize.unset_jwt_cookies()
     return {"msg": "Account deleted"}
+
+@app.get('/auth_print')
+def auth_print():
+    return HTMLResponse()
